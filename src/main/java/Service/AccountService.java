@@ -11,10 +11,14 @@ public class AccountService {
     }
 
     public Account addAccount(Account acc){
+        boolean exists = accountDAO.checkIfUsernameExists(acc.getUsername());
+        if(!(acc.getUsername().isBlank()) && (acc.getPassword().length() > 3) && !(exists)){
+            return accountDAO.insertAccount(acc);
+        }
         return null;
     }
 
     public Account checkIfAccountCredsAreValid(Account acc){
-        return null;
+        return accountDAO.validCreds(acc);
     }
 }

@@ -57,6 +57,7 @@ public class SocialMediaController {
         Account acc = obj.readValue(context.body(), Account.class);
         Account addedAcc = accountService.addAccount(acc);
         if (addedAcc != null){
+            context.status(200);
             context.json(obj.writeValueAsString(addedAcc));
         } else{
             context.status(400);

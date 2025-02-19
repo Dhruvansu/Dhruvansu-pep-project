@@ -118,7 +118,7 @@ public class SocialMediaController {
             context.json(msg);
             context.status(200);
         }
-        context.result();
+        context.json("");
         context.status(200);
     }
 
@@ -129,9 +129,8 @@ public class SocialMediaController {
      */
     private void deleteMessageUsingMessageIdHandler(Context context) throws JsonProcessingException{
         ObjectMapper obj = new ObjectMapper();
-        Message msg = obj.readValue(context.body(), Message.class);
         int msg_id = Integer.parseInt(context.pathParam("message_id"));
-        Message deletedMsg = messageService.deleteMessage(msg_id, msg);
+        Message deletedMsg = messageService.deleteMessage(msg_id);
         if(deletedMsg != null) {
             context.json(obj.writeValueAsString(deletedMsg));
             context.status(200);
@@ -149,7 +148,7 @@ public class SocialMediaController {
     private void messageUpdateHandler(Context context) throws JsonProcessingException{
         ObjectMapper obj = new ObjectMapper();
         int msg_id = Integer.parseInt(context.pathParam("message_id"));
-        String bodyUpdate = obj.readValue(context.body(), String.class);
+        String bodyUpdate = obj.readValue(context.body(), Message.class).getMessage_text();
         Message updatedMsg = messageService.messageBodyUpdate(msg_id, bodyUpdate);
         if(updatedMsg != null){
             context.json(updatedMsg);

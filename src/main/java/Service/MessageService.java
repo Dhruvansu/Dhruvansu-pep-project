@@ -30,15 +30,23 @@ public class MessageService {
         return messageDAO.getMessageByMessageId(msg_id);
     }
 
-    public Message deleteMessage(int msg_id, Message msg){
+    public Message deleteMessage(int msg_id){
+        Message exists = messageDAO.getMessageByMessageId(msg_id);
+        if((exists != null) && (messageDAO.deleteMessageUsingMessageId(msg_id))){
+            return exists;
+        }
         return null;
     }
 
     public Message messageBodyUpdate(int msg_id, String bodyUpdate){
+        Message exists = messageDAO.getMessageByMessageId(msg_id);
+        if((exists != null) && !(bodyUpdate.isBlank()) && (bodyUpdate.length() < 256) && (messageDAO.updateMessageBody(msg_id, bodyUpdate))){
+            return messageDAO.getMessageByMessageId(msg_id);
+        }
         return null;
     }
 
     public List<Message> getMessageByAccountId(int acc_id){
-        return null;
+        return messageDAO.getAllMessagesForTheUser(acc_id);
     }
 }

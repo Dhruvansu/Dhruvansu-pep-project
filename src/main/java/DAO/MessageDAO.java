@@ -67,7 +67,7 @@ public class MessageDAO {
             // TODO: handle exception
             System.out.println(e.getMessage());
         }
-        return new Message();
+        return null;
     }
 
     public boolean deleteMessageUsingMessageId(int msg_id){
